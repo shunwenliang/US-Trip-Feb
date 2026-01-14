@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html lang="zh-TW">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>我的美國行行程表</title>
+
+    <style>
+
+        body { font-family: sans-serif; background: #f4f7f6; padding: 20px; }
+
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+
+        h1 { color: #2c3e50; text-align: center; }
+
+        .summary { display: flex; justify-content: space-around; background: #e8f4f8; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+
+        .item { border-bottom: 1px solid #eee; padding: 12px 0; }
+
+        .date { font-weight: bold; color: #3498db; }
+
+        .conf { font-family: monospace; background: #eee; padding: 2px 5px; font-size: 0.9em; }
+
+        .price { color: #e74c3c; float: right; font-weight: bold; }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🇺🇸 美國行程助手</h1>
+
+        <div class="summary">
+
+            <div>總預估 (TWD): <br><strong id="total-cost">載入中...</strong></div>
+
+            <div>匯率: <br><strong>1 USD = 32 TWD</strong></div>
+
+        </div>
+
+        <div id="itinerary-list"></div>
+
+    </div>
+
+ 
+
+    <script>
+
+        const itinerary = [
+
+            { date: "1/07", task: "華航 TPE-SFO", note: "抵達舊金山", cost: 0, currency: "TWD" },
+
+            { date: "1/07", task: "TownePlace Suites", note: "Conf: 85906935", cost: 464.56, currency: "USD" },
+
+            { date: "1/08-09", task: "Big Sur Campground", note: "2 Nights", cost: 0, currency: "USD" },
+
+            { date: "1/10-13", task: "Airbnb (Carmel)", note: "Conf: HMBTPRSJYN", cost: 72555.86, currency: "TWD" },
+
+            { date: "1/14-16", task: "TownePlace Suites", note: "Conf: 72981687", cost: 617.76, currency: "USD" },
+
+            { date: "1/16", task: "華航 SFO-TPE", note: "返程", cost: 0, currency: "TWD" }
+
+        ];
+
+ 
+
+        let totalTWD = 0;
+
+        const listDiv = document.getElementById('itinerary-list');
+
+ 
+
+        itinerary.forEach(item => {
+
+            let itemCostTWD = item.currency === "USD" ? item.cost * 32 : item.cost;
+
+            totalTWD += itemCostTWD;
+
+ 
+
+            listDiv.innerHTML += `
+
+                <div class="item">
+
+                    <span class="date">${item.date}</span> ${item.task}
+
+                    ${item.cost > 0 ? `<span class="price">$${item.cost} ${item.currency}</span>` : ''}
+
+                    <br><small>${item.note}</small>
+
+                </div>
+
+            `;
+
+        });
+
+ 
+
+        document.getElementById('total-cost').innerText = Math.round(totalTWD).toLocaleString() + " 元";
+
+    </script>
+
+</body>
+
+</html>
